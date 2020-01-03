@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+        <script>
+            function pow_mod(){
+                var a = $("#pow-mod-a").val()
+                var b = $("#pow-mod-b").val()
+                var m = $("#pow-mod-m").val()
+                var url = "http://127.0.0.1:40000/powmod"
+                $.get(url,{a:a,n:b,m:m},function(data,status){
+                    obj = eval("("+data+")")
+                    var status = obj.status
+                    var result = obj.result
+                    var msg = obj.msg
+                    if (status == "0"){
+                        $("#result-pow-mod").text(`${a}^${b} mod ${m} = ${result}`)
+                    }
+                    else{
+                        $("#result-pow-mod").text(`错误：${msg}`)
+                    }
+
+                })
+            }
+            function lisan(){
+                var a = $("#lisan-a").val()
+                var b = $("#lisan-b").val()
+                var m = $("#lisan-m").val()
+                var url = "http://127.0.0.1:40000/bsgs"
+                $.get(url,{a:a,b:b,m:m},function(data,status){
+                    obj = eval("("+data+")")
+                    var status = obj.status
+                    var result = obj.result
+                    var msg = obj.msg
+                    if (status == "0"){
+                        $("#result-lisan").text(`${a}^x mod ${m} = ${b} :解得 x=${result}`)
+                    }
+                    else{
+                        $("#result-lisan").text(`错误：${msg}`)
+                    }
+
+                })
+            }
+        </script>
+    </head>
+    <body>
+        <h1>小步大步法实验</h1>
+        <label>要求输入的数字在区间[1,1e12]，且m为素数
+        <h3>模幂运算</h3>
+        <label>求a^b mod m</label> <br>
+        a: <input type="text" id="pow-mod-a" ><br>
+        b: <input type="text" id="pow-mod-b"><br>
+        m: <input type="text" id="pow-mod-m"><br>
+        <input type="submit" id="calc-pow-mod" value="计算" onclick="pow_mod()">
+        <label id="result-pow-mod"> </label>
+
+        <h3>离散对数</h3>
+        <label>求a^x mod m = b ，输出x</label> <br>
+        a: <input type="text" id="lisan-a"><br>
+        b: <input type="text" id="lisan-b"><br>
+        m: <input type="text" id="lisan-m"><br>
+        <input type="submit" id="calc-lisan" value="计算" onclick="lisan()">
+        <label id="result-lisan"> </label>
+    </body>
+</html>
